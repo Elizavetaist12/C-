@@ -1,0 +1,117 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Reflection.Emit;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Laba11
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            this.Width = 450;
+            label_result.TextAlign = ContentAlignment.MiddleCenter;
+            MaskedTextBox_Value1.Mask = "AAAAAA"; 
+            MaskedTextBox_Value2.Mask = "0000.000000";
+            MaskedTextBox_Operation.Mask = "&0";
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string value1 = MaskedTextBox_Value1.Text.Trim();
+            //var x = Convert.ToInt32(value1);
+
+            string value2 = MaskedTextBox_Value2.Text.Trim();
+            //int y = Convert.ToInt32(value2);
+
+            string operation = MaskedTextBox_Operation.Text.Trim();
+            string pad_value1 = string.Empty;
+
+            decimal result = (operation == "+" ? Convert.ToInt32(value1) + Convert.ToDecimal(value2): 
+                              operation == "-" ? Convert.ToInt32(value1) - Convert.ToDecimal(value2) : 
+                              operation == "*" ? Convert.ToInt32(value1) * Convert.ToDecimal(value2) : 
+                              0);
+            label_result.Text = result.ToString();
+            if (operation == "p1")
+            {
+                pad_value1 = value1.PadLeft(Convert.ToInt32(value1), '0');
+                label_result.Text = pad_value1.ToString();
+                Form2 form2 = new Form2(pad_value1);
+                form2.Show();
+                return;
+                
+                
+            }
+
+            Form2 form2_result = new Form2(result);
+            form2_result.Show();
+            
+        }
+
+
+
+
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+    }
+}
+
+
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Laba11
+{
+    public partial class Form2 : Form
+    {
+        public Form2(decimal result)
+        {
+            InitializeComponent();
+            label_result2.Text = result.ToString();
+        }
+        
+        public Form2(string pad_value1)
+        {
+            InitializeComponent();
+            label_result2.Text = pad_value1;
+        }
+        
+        public void label_result2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_res_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
+}
