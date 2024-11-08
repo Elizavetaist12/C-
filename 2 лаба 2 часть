@@ -1,0 +1,114 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Diagnostics;
+using System.Drawing;
+using System.Linq;
+using System.Reflection.Emit;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+
+namespace Laba11
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            this.Width = 450;
+            label_result.TextAlign = ContentAlignment.MiddleCenter;
+            MaskedTextBox_Value1.Mask = "AAAAAAAAAAAAAAA";
+            MaskedTextBox_Value2.Mask = "0000.000000";
+            MaskedTextBox_Operation.Mask = "&0";
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+
+                string value1 = MaskedTextBox_Value1.Text.Trim();
+                //var x = Convert.ToInt32(value1);
+
+                string value2 = MaskedTextBox_Value2.Text.Trim();
+                //int y = Convert.ToInt32(value2);
+
+                string operation = MaskedTextBox_Operation.Text.Trim();
+                string pad_value1 = string.Empty;
+
+                decimal result = (operation == "+" ? Convert.ToInt32(value1) + Convert.ToDecimal(value2) :
+                                  operation == "-" ? Convert.ToInt32(value1) - Convert.ToDecimal(value2) :
+                                  operation == "*" ? Convert.ToInt32(value1) * Convert.ToDecimal(value2) :
+                                  0);
+                //label_result.Text = result.ToString();
+                label_result.Text = string.Format("{0, 10:F3}", result);
+                if (operation == "p1")
+                {
+                    pad_value1 = value1.PadLeft(Convert.ToInt32(value1), '0');
+                    label_result.Text = pad_value1.ToString();
+                    Form2 form2 = new Form2(pad_value1);
+                    form2.Show();
+                    return;
+
+
+                }
+
+                Form2 form2_result = new Form2(result);
+                form2_result.Show();
+            }
+
+            catch (OverflowException ex)
+            {
+                MessageBox.Show("Число слишком велико или слишком мало: " + ex.Message);
+                Debug.WriteLine($"Error: {ex.Message}");
+                //Trace.WriteLine($"Error: {ex.Message}");
+            }
+        }
+        
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void MaskedTextBox_Value1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (!(e.KeyCode == Keys.A || e.KeyCode == Keys.D
+                || e.KeyCode == Keys.D0 || e.KeyCode == Keys.D1
+                || e.KeyCode == Keys.D2 || e.KeyCode == Keys.D3 
+                || e.KeyCode == Keys.D8 || e.KeyCode == Keys.Back))
+                
+
+                e.SuppressKeyPress = true;
+                    }
+
+        private void MaskedTextBox_Value1_Leave(object sender, EventArgs e)
+        {
+            string value1 = MaskedTextBox_Value1.Text.Trim();
+            if (value1.IndexOfAny("abcdef".ToCharArray()) != -1)
+                {
+                MessageBox.Show("Введите только цифры");
+                MaskedTextBox_Value1.Focus();
+                return;
+                
+            }
+            else if (!value1.StartsWith("1"))
+                {
+                MessageBox.Show("Пeрвое число должно начинаться с 1");
+                MaskedTextBox_Value1.Focus();
+                return;
+                
+            }
+                  
+
+        }
+    }
+}
