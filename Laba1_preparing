@@ -1,0 +1,205 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Diagnostics.Eventing.Reader;
+using System.Drawing;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Xml.Schema;
+
+namespace CR
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+
+        {
+            /* 
+            this.Width = 550; //this - экземпляр класса определяет ширину элемента интерфейса 
+            this.Height = 550;
+            this.Size = new Size(Width, Height);
+
+            this.BackgroundImage = Image.FromFile("C:/Users/mishu/source/repos/CR/tom_jerry.jpg"); //Установка фона формы
+            this.BackgroundImageLayout = ImageLayout.Stretch; //Установка способа отображения (растянуть по всей форме)
+
+            textBox1_value1.Bounds = new Rectangle(250, 30, 80, 30);  // Устанавливаем позицию и размер первого текстового поля
+            textBox1_value1.TabStop = true; //// Делает это текстовое поле доступным через Tab
+            textBox1_value1.TabIndex = 0;
+            textBox2_value2.TabIndex = 1;
+            textBox3_operation.TabIndex = 2;
+
+            label1_result.Font = new Font("Times New Roman", 14); // Устанавливаем шрифт
+            label1_result.Location = new Point(255, button1_result.Bottom + 20);  //устанавливает позицию для элемента управления
+            //с использованием класса Point(x,y) x = 255 y = динамическое значение button1_result.Bottom возвращает координату 
+            //нижней границы кнопки
+
+            label1_result.BackColor = Color.Green; //Устанавливаем задний фон на label - поле вывода результата
+            label1_result.ForeColor = Color.Red; //Устанавливаем цвет текста label1
+
+            textBox2_value2.Top = textBox1_value1.Bottom + 15; //устанавливаем границу между нижней границей нижнего элемента и верхней границей верхнего элемента
+            textBox1_value1.Left = textBox2_value2.Left; //выравнивание текст бокса 1 и 2 по левому краю
+
+            label1_result.TextAlign = ContentAlignment.MiddleCenter; //Установка и выравнивание текста внутри элемента управления 
+
+            button1_result.FlatStyle = FlatStyle.Flat;  //стиль отображения элементов фон и границы
+            panel1.BorderStyle = BorderStyle.FixedSingle; //Устанавливает сплошную границу элемента
+
+            label1_result.Visible = false; //видимость элемента 
+            */
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+           
+
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox3_operation_TextChanged(object sender, EventArgs e)
+        {
+       
+        }
+
+        private void button1_result_Click(object sender, EventArgs e)
+        {
+
+
+
+            string value1 = textBox1_value1.Text.Trim('*'); //Trim() убирает пробелы слева и справа
+            //int x = Convert.ToInt32(value1);
+            
+            string value2 = textBox2_value2.Text.TrimStart();
+            //int y = Convert.ToInt32(value2);
+            
+
+            string operation = textBox3_operation.Text.TrimEnd();
+            string pad_value1 = string.Empty;
+
+            decimal result = 0;
+            /* if (operation == '+')
+             {
+                 result = x + y;
+             }
+             else if (operation == '-')
+             {
+                 result = x - y;
+
+             }
+             else if (operation == '*')
+             {
+                 result = x * y;
+
+             }
+             else if (operation == '/')
+             {
+                 if (y != 0)
+                 {
+                     result = x / y;
+                 }
+                 else
+                 {
+                     MessageBox.Show("Ошибка: на 0 делить нельзя");
+                 }
+             }
+             label1_result.Text = result.ToString();
+             */
+            switch (operation)
+            {
+                case "+":
+                    result = Convert.ToInt32(value1) + Convert.ToDecimal(value2);
+                    break;
+
+
+
+                case "-":
+                    result = Convert.ToInt32(value1) - Convert.ToDecimal(value2);
+                    break;
+
+                case "*":
+                    result = Convert.ToInt32(value1) * Convert.ToDecimal(value2);
+                    break;
+                case "/":
+                    if (Convert.ToDecimal(value2) != 0)
+                    {
+                        result = Convert.ToInt32(value1) + Convert.ToDecimal(value2);
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ошибка на 0 делить нельзя");
+                    }
+                    break;
+                        }
+
+            label1_result.Text = result.ToString();
+            Form2 form2 = new Form2();
+            form2.label1_result2.Text = result.ToString();
+            form2.Show();
+            /*
+            double result1 = (operation == '+' ? x + y :
+                operation == '-' ? x - y :
+                operation == '*' ? x * y: 0); */
+            if (operation == "p1")
+             {
+                pad_value1 = value1.PadLeft(value2.Length, '0');
+                label1_result.Text = pad_value1.ToString();
+                form2.label1_result2.Text = pad_value1.ToString();
+                form2.Show(); 
+                return;
+
+
+            }
+            /*
+
+            string answer  = value2.Insert(2, value1); //строковый метод вставляет сроку в тек строку по индексу
+            Console.WriteLine(answer);
+            string values = value1.Substring(0, value1.Length / 2) + value2.Substring(value1.Length / 2); //возвращает подстроку с опр индекса и до конца
+            Console.WriteLine(values);
+
+            string replacedValue = value1.Replace('0','4');//заменяет все вхождения подстроки на новые
+            Console.WriteLine(replacedValue);
+
+            string removedValue = value1.Remove(0, 6);//удаляем 6символов, начиная  с первого
+            Console.WriteLine(removedValue);
+
+            string[] splitValues = value2.Split('.'); //разделяем строку по точке
+            Console.WriteLine(splitValues);
+
+            char[] chars_values = value2.ToCharArray(); //преобразуем строку в массив
+            Console.WriteLine(chars_values);
+
+            label_result.Text = $"Replaced: {replacedValue}\nRemoved: {removedValue}\nSplit: 
+            {string.Join(", ", splitValues)}\nPadded: '{paddedValue}'";*/
+
+            //label1_result.Text = string.Join(",", splitValues);
+
+            //int[] mas = new int[2];
+            
+        }
+
+       
+    }
+}
